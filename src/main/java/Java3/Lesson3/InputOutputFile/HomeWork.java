@@ -2,6 +2,7 @@ package Java3.Lesson3.InputOutputFile;
 
 import java.io.*;
 
+
 public class HomeWork {
 
     //Создаём класс на стороне клиента
@@ -34,6 +35,7 @@ public class HomeWork {
     //На стороне клиента после авторизации создаём файл с именем пользователя
     ExternalFileHandler log = new ExternalFileHandler(username);
 
+
     // Цикл общения
     while (true) {
         String msg = in.readUTF();
@@ -51,7 +53,7 @@ public class HomeWork {
             continue;
         }
         msgArea.appendText(msg + "\n");
-        
+
         //записываем в файл Лог с msgArea
         log.writeInLog(msg);
     }
