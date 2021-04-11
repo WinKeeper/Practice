@@ -6,6 +6,7 @@ import java.util.concurrent.CyclicBarrier;
 public class Main {
     public static final int CARS_COUNT = 4;
     public static final CountDownLatch latch = new CountDownLatch(1);
+    public static final CyclicBarrier cb = new CyclicBarrier(CARS_COUNT + 1);
 
 
     public static void main(String[] args) {
@@ -15,7 +16,7 @@ public class Main {
 
         //Создаём машины
         for (int i = 0; i < cars.length; i++) {
-            cars[i] = new Car(race, 20 + (int) (Math.random() * 10));
+            cars[i] = new Car(race, 20 + (int) (Math.random() * 10), cb);
         }
 
         //Запускаем потоки - ставим машины на трек
@@ -23,12 +24,15 @@ public class Main {
             new Thread(cars[i]).start();
         }
 
-        race.waitCompetitors();
-        System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
-        race.waitCompetitors();
+        try {
+            cb.await();
+            System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка началась!!!");
+            //Программа зависает на этом ожидании и идёт дальше по мейну - Гонка закончилась
+            cb.await();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
-
-
     }
 }
 

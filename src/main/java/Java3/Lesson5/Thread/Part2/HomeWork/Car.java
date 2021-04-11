@@ -7,6 +7,8 @@ public class Car implements Runnable {
     private Race race;
     private int speed;
     private String name;
+    //Казалось можно создать общий барьер на классы.
+    private CyclicBarrier cb;
 
     public String getName() {
         return name;
@@ -18,11 +20,13 @@ public class Car implements Runnable {
 
     //Конструктор Car подразумевает передачу сюда ссылку на race - ставим машину на гоночный трек
     //В самом race определяем этапы каждый из которых переписывает метод машины go.
-    public Car(Race race, int speed) {
+    //Передаём в конструктор барьер из Main this.cb = cb.
+    public Car(Race race, int speed, CyclicBarrier cb) {
         this.race = race;
         this.speed = speed;
         CARS_COUNT++;
         this.name = "Участник #" + CARS_COUNT;
+        this.cb = cb;
     }
 
     @Override
@@ -31,6 +35,7 @@ public class Car implements Runnable {
             System.out.println(this.name + " готовится");
             Thread.sleep(500 + (int)(Math.random() * 800));
             System.out.println(this.name + " готов");
+            cb.await();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -41,6 +46,7 @@ public class Car implements Runnable {
             Main.latch.countDown();
             System.out.println(this.name + " победил!");
         }
-
     }
+
+
 }
