@@ -34,6 +34,8 @@ public class Main {
         }
         System.out.println("ВАЖНОЕ ОБЪЯВЛЕНИЕ >>> Гонка закончилась!!!");
     }
+
+
 }
 
 
