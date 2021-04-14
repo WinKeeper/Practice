@@ -13,4 +13,6 @@ public abstract class Stage {
     //Метод для прохождения этапа в который мы передём машину
     public abstract void go(Car c);
 
+
+
 }
